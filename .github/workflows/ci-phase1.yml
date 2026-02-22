@@ -1,0 +1,38 @@
+name: DevSecOps CI - Phase 1 (Python Build)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Basic Python Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify Python version
+        run: python --version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Basic application import check
+        run: |
+          python - <<EOF
+          from app.main import create_app
+          app = create_app()
+          print("Flask app loaded successfully")
+          EOF
+
