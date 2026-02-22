@@ -38,7 +38,8 @@ jobs:
 
       - name: Run Bandit SAST scan
         run: |
-          bandit -r app -ll -ii
+          bandit -r app
+          bandit -r app -f sarif -o bandit.sarif
 
       - name: Run dependency vulnerability audit
         run: |
