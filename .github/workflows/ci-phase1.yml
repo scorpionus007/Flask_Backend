@@ -41,6 +41,6 @@ jobs:
           print("Flask app loaded successfully")
           EOF
 
-      - name: Run unit tests
-        run: python -m pytest -v
+      - name: Run tests
+        run: python -m pytest tests -v
 
