@@ -1,5 +1,7 @@
 name: DevSecOps CI - Phase 3.2 (Security Reporting)
-
+permissions:
+  contents: read
+  security-events: write
 on:
   push:
     branches:
@@ -27,15 +29,15 @@ jobs:
           pip install -r requirements.txt
           pip install bandit pip-audit
 
-      - name: Run Bandit (SARIF)
-        run: |
-          bandit -r app -f sarif -o bandit.sarif || true
+      - name: Run Bandit
+        run: bandit -r app -ll -ii -f sarif -o bandit.sarif || true
 
       - name: Run pip-audit (JSON)
         run: |
           pip-audit -f json -o pip-audit.json || true
 
-      - name: Upload Bandit SARIF report
+      - name: Upload Bandit SARIF
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: bandit.sarif
